@@ -8,4 +8,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+char **tokenize(char *str, const char *delim);
+void free_command(char **command);
+
 #endif
