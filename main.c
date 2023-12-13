@@ -15,12 +15,12 @@
 int main(int argc, char *argv[])
 {
 	char *line = NULL, **array = NULL;
-	size_t n = 0;
+	size_t n = 0, count = 0;
 	ssize_t nRead;
 	int status;
-	pid_t pid;
 
-	(void)argc; (void)argv;
+	(void)status;
+	(void)argc;
 	while (1)
 	{
 		if (isatty(0))
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 		fflush(stdout);
 
 		nRead = getline(&line, &n, stdin);
-
+		++count;
 		/* getline failure */
 		if (nRead == -1 || nRead == EOF)
 		{
@@ -37,36 +37,22 @@ int main(int argc, char *argv[])
 				printf("\n");
 			exit(0);
 		}
-
-		/* remove newline character */
 		line[nRead - 1] = '\0';
-
 		if (*line == '\0')
 			continue;
 
 		array = tokenize(line, " ");
 		if (array == NULL)
 			continue;
-
-		pid = fork();
-		if (pid == -1)
+		if (access(array[0], X_OK) == -1)
+		{
+			fprintf(stderr, "%s: %lu: %s: not found\n", argv[0], count, array[0]);
+			free_command(array);
 			continue;
-
-		if (pid == 0)
-		{
-			if (execve(array[0], array, environ) == -1)
-			perror("execve");
 		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				status = WEXITSTATUS(status);
-		}
-
+		status = execute(array);
 		line = NULL;
 	}
-
 	return (0);
 }
 
