@@ -11,13 +11,14 @@
  * Return: an integer
  */
 
-char **token(char *str, const char *delim);
 
 int main(int argc, char *argv[])
 {
 	char *line = NULL, **array = NULL;
 	size_t n = 0;
 	ssize_t nRead;
+	int status;
+	pid_t pid;
 
 	(void)argc; (void)argv;
 	while (1)
@@ -40,16 +41,32 @@ int main(int argc, char *argv[])
 		/* remove newline character */
 		line[nRead - 1] = '\0';
 
+		if (*line == '\0')
+			continue;
+
 		array = tokenize(line, " ");
 		if (array == NULL)
 			continue;
 
-		if (execve(array[0], array, NULL) == -1)
+		pid = fork();
+		if (pid == -1)
+			continue;
+
+		if (pid == 0)
 		{
-			fprintf(stderr, "%s: not found\n", array[0]);
+			if (execve(array[0], array, environ) == -1)
+			perror("execve");
 		}
+		else
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				status = WEXITSTATUS(status);
+		}
+
 		line = NULL;
 	}
 
 	return (0);
 }
+
