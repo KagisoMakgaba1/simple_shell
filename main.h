@@ -8,7 +8,10 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+extern char **environ;
+
 char **tokenize(char *str, const char *delim);
 void free_command(char **command);
+int execute(char **command);
 
 #endif
