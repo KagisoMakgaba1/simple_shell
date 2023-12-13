@@ -13,5 +13,7 @@ extern char **environ;
 char **tokenize(char *str, const char *delim);
 void free_command(char **command);
 int execute(char **command);
+void get_path(char **command);
+char *getInput(char **line);
 
 #endif
