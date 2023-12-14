@@ -16,7 +16,6 @@ void free_command(char **command)
 	for (n = 0; command[n] != NULL; n++)
 	{
 		free(command[n]);
-		command[n] = NULL;
 	}
 	free(command);
 }

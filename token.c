@@ -12,15 +12,13 @@ char **tokenize(char *str, const char *delim)
 {
 	char *token, *str_copy;
 	char **str_array = NULL;
-	size_t num_token = 0, i;
+	size_t num_token = 0, i, j;
 
 	if (str == NULL || *str == '\0')
 		return (NULL);
-
 	str_copy = strdup(str);
 	if (str_copy == NULL)
 		exit(EXIT_FAILURE);
-
 	token = strtok(str_copy, delim);
 	while (token != NULL)
 	{
@@ -34,16 +32,22 @@ char **tokenize(char *str, const char *delim)
 		str_array = malloc(sizeof(char *) * (num_token + 1));
 		if (str_array == NULL)
 			exit(EXIT_FAILURE);
-
 		token = strtok(str, delim);
 		i = 0;
 		while (token != NULL)
 		{
-			str_array[i++] = strdup(token);
+			str_array[i] = strdup(token);
+			if (str_array[i] == NULL)
+			{
+				for (j = 0; j < i; j++)
+					free(str_array[j]);
+				free(str_array);
+				exit(EXIT_FAILURE);
+			}
+			i++;
 			token = strtok(NULL, delim);
 		}
 		str_array[i] = NULL;
 	}
-
 	return (str_array);
 }

@@ -16,6 +16,7 @@ char *getInput(char **line)
 
 	if (nRead == -1 || nRead == EOF)
 	{
+		free(*line);
 		if (isatty(STDIN_FILENO))
 			printf("\n");
 		exit(EXIT_SUCCESS);
