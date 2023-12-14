@@ -15,5 +15,8 @@ void free_command(char **command);
 int execute(char **command);
 void get_path(char **command);
 char *getInput(char **line);
+char *my_getenv(char *var);
+void my_env(void);
+void exit_builtin(void);
 
 #endif
