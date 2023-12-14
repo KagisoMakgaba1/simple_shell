@@ -11,7 +11,6 @@ char *getInput(char **line)
 {
 	size_t n = 0;
 	ssize_t nRead;
-	/*char *home;*/
 
 	nRead = getline(line, &n, stdin);
 

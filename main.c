@@ -45,6 +45,9 @@ int main(int argc, char *argv[])
 			}
 		}
 		status = execute(array);
+		free(line);
+		free_command(array);
+		array = NULL;
 		line = NULL;
 	}
 	return (0);
