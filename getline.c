@@ -14,9 +14,8 @@ char *getInput(char **line)
 
 	nRead = getline(line, &n, stdin);
 
-	if (nRead == -1 || nRead == EOF || strcmp("exit\n", *line) == 0)
+	if (nRead == -1 || nRead == EOF)
 	{
-		free(*line);
 		if (isatty(STDIN_FILENO))
 			printf("\n");
 		exit(EXIT_SUCCESS);
