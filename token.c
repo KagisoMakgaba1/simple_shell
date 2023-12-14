@@ -18,6 +18,8 @@ char **tokenize(char *str, const char *delim)
 		return (NULL);
 
 	str_copy = strdup(str);
+	if (str_copy == NULL)
+		exit(EXIT_FAILURE);
 
 	token = strtok(str_copy, delim);
 	while (token != NULL)
