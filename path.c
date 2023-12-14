@@ -8,11 +8,9 @@
 void get_path(char **command)
 {
 	char *path = NULL, *token = NULL, *dir, *path_copy;
-	size_t length;
 
 	if (*command == NULL || command == NULL)
 		return;
-
 	dir = getenv("PATH");
 	if (dir == NULL)
 		return;
@@ -22,12 +20,9 @@ void get_path(char **command)
 		return;
 
 	token = strtok(path_copy, ":");
-
 	while (token != NULL)
 	{
-		length = strlen(token) + strlen("/") + strlen(*command) + 1;
-		path = malloc(sizeof(char) * length);
-
+		path = malloc(sizeof(char) * (strlen(*command) + strlen(token) + 2));
 		if (path == NULL)
 		{
 			fprintf(stderr, "Memory allocation failed\n");
@@ -47,4 +42,9 @@ void get_path(char **command)
 		token = strtok(NULL, ":");
 	}
 	free(path_copy);
+
+	fprintf(stderr, "./hsh: 1: %s: not found\n", *command);
+	free(*command);
+	*command = NULL;
+	exit(127);
 }

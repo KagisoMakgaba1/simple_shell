@@ -14,12 +14,12 @@ char *getInput(char **line)
 
 	nRead = getline(line, &n, stdin);
 
-	if (nRead == -1 || nRead == EOF)
+	if (nRead == -1 || nRead == EOF || strcmp("exit\n", *line) == 0)
 	{
 		free(*line);
 		if (isatty(STDIN_FILENO))
 			printf("\n");
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	(*line)[nRead - 1] = '\0';
 
