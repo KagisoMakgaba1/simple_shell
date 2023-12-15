@@ -23,5 +23,18 @@ char *getInput(char **line)
 	}
 	(*line)[nRead - 1] = '\0';
 
+	if (strcmp(*line, "exit") == 0)
+	{
+		free(*line);
+		if (isatty(STDIN_FILENO))
+			printf("Exiting shell..\n");
+		exit(EXIT_SUCCESS);
+	}
+
+	if (strcmp(*line, "env") == 0)
+	{
+		my_env();
+		return (NULL);
+	}
 	return (*line);
 }
