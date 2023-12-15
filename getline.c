@@ -33,7 +33,7 @@ char *getInput(char **line)
 
 	if (strcmp(*line, "env") == 0)
 	{
-		my_env();
+		my_getenv(*line);
 		return (NULL);
 	}
 	return (*line);
